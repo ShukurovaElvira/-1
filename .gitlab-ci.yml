@@ -1,0 +1,27 @@
+image: node:latest
+
+stages:
+  - build
+  - start
+
+build:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+  stage: build
+  interruptible: true
+  script:
+    - echo $CI_PROJECT_NAME
+    - npm i
+
+start:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+  stage: start
+  interruptible: true
+  script:
+    - npm install
+    - ARR_LENGTH=$ARR_LENGTH node index.js
+  artifacts:
+    paths:
+      - ./output.json
+
